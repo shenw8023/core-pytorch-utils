@@ -5,19 +5,18 @@ from typing import Any, Dict, List, Optional
 from .hookbase import HookBase
 
 
-class CheckpointerHook(HookBase):
-    """Save checkpoints periodically.
+class CheckpointHook(HookBase):
+    """Save checkpoint periodically.
 
-    Save checkpoint, if current epoch is a multiple of period or ``max_epochs`` is reached.
+    Save checkpoint, if current epoch is a multiple of ``period`` or ``max_epochs`` is reached.
+
+    Args:
+        period (int): Save checkpoint every ``period`` epochs.
+        max_to_keep (int): Maximum number of most current checkpoints to keep,
+            previous checkpoints will be deleted. If None, save all checkpoints.
     """
 
     def __init__(self, period: int, max_to_keep: Optional[int] = None) -> None:
-        """
-        Args:
-            period (int): The period to save checkpoint.
-            max_to_keep (int): Maximum number of most current checkpoints to keep,
-                previous checkpoints will be deleted.
-        """
         self._period = period
         assert max_to_keep is None or max_to_keep > 0
         self._max_to_keep = max_to_keep
